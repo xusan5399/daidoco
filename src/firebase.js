@@ -1,6 +1,8 @@
+// firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
+// Firebase 配置对象
 const firebaseConfig = {
   apiKey: "AIzaSyDxqkc_dQIY2Kd2RAWTF-CUyfIihXtZz-g",
   authDomain: "daidoco-2c19f.firebaseapp.com",
@@ -11,8 +13,8 @@ const firebaseConfig = {
   measurementId: "G-0F87LGYZ1X",
 };
 
-// Firebaseアプリの初期化
+// 初始化 Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-// Firebase Authをエクスポート
-export const auth = getAuth(app);
+export { auth };

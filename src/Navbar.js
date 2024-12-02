@@ -1,40 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Button, Menu, MenuItem, Avatar } from "@mui/material";
-import { auth } from "./firebase"; // 导入 Firebase 配置
+import { auth } from "./firebase"; // Firebaseの設定をインポート
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import "./styles.css"; // 样式文件
+import "./styles.css"; // スタイルファイル
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
 
-  // Google 登录处理
+  // Googleログイン処理
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
+      console.log("User signed in:", result.user); // ログイン後のユーザ情報をログに出力
       setUser({
         name: result.user.displayName,
         avatarUrl: result.user.photoURL,
       });
     } catch (error) {
-      console.error("Google login error:", error);
+      console.error("Googleログインエラー:", error);
     }
   };
 
-  // 退出登录处理
+  // ログアウト処理
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null); // 清空用户信息
+      console.log("User signed out"); // 退出后的日志
+      setUser(null); // ユーザー情報をクリア
+      setAnchorEl(null); // 清空菜单状态
     } catch (error) {
-      console.error("Sign out error:", error);
+      console.error("ログアウトエラー:", error);
     }
   };
 
-  // 获取登录用户信息
+  // ログイン状態のユーザー情報を取得
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      console.log("Auth state changed:", currentUser); // 每次认证状态变化的日志
       if (currentUser) {
         setUser({
           name: currentUser.displayName,
@@ -44,18 +48,20 @@ export default function Navbar() {
         setUser(null);
       }
     });
-    return unsubscribe; // 清理订阅
+    return unsubscribe; // 購読解除
   }, []);
 
-  // 点击头像，显示菜单
+  // アバタークリックでメニューを表示
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget); // 点击时才设置 anchorEl
   };
 
-  // 关闭菜单
+  // メニューを閉じる
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null); // 关闭菜单时清空 anchorEl
   };
+
+  console.log("Rendered user state:", user); // 渲染时输出用户状态
 
   return (
     <div className="navbar">
@@ -64,29 +70,38 @@ export default function Navbar() {
         <span>DAI DO EXCH</span>
       </div>
 
-      {/* 登录用户信息 */}
+      {/* ログインユーザー情報 */}
       {user ? (
         <div className="avatar-menu">
           <Avatar
             alt={user.name}
             src={user.avatarUrl}
             sx={{ cursor: "pointer" }}
-            onClick={handleClick} // 点击头像显示菜单
+            onClick={handleClick} // アバタークリックでメニュー表示
           />
-          {/* 用户菜单 */}
+          {/* ユーザーメニュー */}
           <Menu
             anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
+            open={Boolean(anchorEl)} // 只有点击时 anchorEl 才会被设置，菜单才会显示
+            onClose={handleClose} // 关闭菜单时清空 anchorEl
             MenuListProps={{ "aria-labelledby": "basic-button" }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={handleClose}>プロフィール</MenuItem>{" "}
+            {/* プロフィール */}
+            <MenuItem onClick={handleClose}>マイアカウント</MenuItem>{" "}
+            {/* マイアカウント */}
+            <MenuItem onClick={handleClose}>設定</MenuItem> {/* 設定 */}
+            <MenuItem onClick={handleClose}>通知</MenuItem> {/* 通知 */}
+            <MenuItem onClick={handleClose}>メッセージ</MenuItem>{" "}
+            {/* メッセージ */}
+            <MenuItem onClick={handleClose}>コミュニティ</MenuItem>{" "}
+            {/* コミュニティ */}
+            <MenuItem onClick={handleLogout}>ログアウト</MenuItem>{" "}
+            {/* ログアウト */}
           </Menu>
         </div>
       ) : (
-        <Button onClick={handleLogin}>Login with Google</Button>
+        <Button onClick={handleLogin}>Googleでログイン</Button>
       )}
     </div>
   );

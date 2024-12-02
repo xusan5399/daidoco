@@ -45,3 +45,82 @@ h1,
 h2 {
   color: #333;
 }
+
+/* styles.css */
+.profile {
+  text-align: center;
+  margin: 20px auto;
+}
+
+.profile-pic {
+  border: 2px solid #ddd;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.home {
+  background-image: url("/public/img/daohang.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* 菜单头像部分 */
+.avatar-menu {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.avatar-menu .MuiAvatar-root {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+/* 导航栏其他样式 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+  color: white;
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navbar .links {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar .links a {
+  color: white;
+  text-decoration: none;
+}

@@ -1,47 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { auth } from "./firebase";
+import React, { useState } from "react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "./firebase"; // 假设你已正确配置 Firebase
 
-export default function Auth() {
-  const [user, setUser] = useState(null);
-
-  // 监听用户登录状态
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser); // 更新用户状态
-    });
-    return () => unsubscribe(); // 清理监听器
-  }, []);
+export default function Auth({ onLogin }) {
+  const [error, setError] = useState(null);
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log("登录成功: ", result.user);
-    } catch (error) {
-      console.error("登录失败: ", error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      console.log("登出成功");
-    } catch (error) {
-      console.error("登出失败: ", error);
+      alert(`欢迎, ${result.user.displayName}`);
+      onLogin(); // 登录成功后通知父组件更新状态
+    } catch (err) {
+      setError("登录失败，请重试");
+      console.error("登录失败: ", err);
     }
   };
 
   return (
     <div className="auth">
-      {user ? (
-        <div>
-          <p>欢迎, {user.displayName}</p>
-          <button onClick={handleLogout}>登出</button>
-        </div>
-      ) : (
-        <button onClick={handleGoogleLogin}>使用 Google 登录</button>
-      )}
+      <button onClick={handleGoogleLogin}>使用 Google 登录</button>
+      {error && <p>{error}</p>}
     </div>
   );
 }

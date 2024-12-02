@@ -1,27 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Auth from "./Auth";
+import "./styles.css";
 
-export default function Home() {
-  const topics = [
-    { id: 1, title: "如何优化JS性能？", description: "分享你的技巧与经验" },
-    {
-      id: 2,
-      title: "UI设计中的配色方案",
-      description: "大家讨论一下好用的工具和方案",
-    },
-    { id: 3, title: "机器学习课题讨论", description: "关于模型优化的经验" },
-  ];
-
+export default function Home({ onLogin }) {
   return (
     <div className="home">
-      <h2>社区课题列表</h2>
-      <ul>
-        {topics.map((topic) => (
-          <li key={topic.id}>
-            <h3>{topic.title}</h3>
-            <p>{topic.description}</p>
-          </li>
-        ))}
-      </ul>
+      <h1>欢迎来到大学作业课题交流平台</h1>
+      <Auth onLogin={onLogin} />
+      <Link to="/create-assignment">发布新课题</Link>
     </div>
   );
 }

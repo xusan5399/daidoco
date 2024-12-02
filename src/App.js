@@ -9,24 +9,26 @@ import Auth from "./Auth";
 import Home from "./Home";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
-import CreateAssignment from "./CreateAssignment"; // 新增的发布课题组件
+import CreateAssignment from "./CreateAssignment";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // 模拟从 localStorage 获取登录状态
+  // 初始化时检查 localStorage 是否存储登录状态
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
+    if (user === "authenticated") {
       setIsAuthenticated(true);
     }
   }, []);
 
+  // 登录成功的处理
   const handleLogin = () => {
     setIsAuthenticated(true);
     localStorage.setItem("user", "authenticated");
   };
 
+  // 退出登录的处理
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("user");
@@ -34,19 +36,28 @@ export default function App() {
 
   return (
     <Router>
-      <Navbar onLogout={handleLogout} />
+      <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<Auth onLogin={handleLogin} />} />
+          <Route
+            path="/auth"
+            element={
+              isAuthenticated ? (
+                <Navigate to="/" /> // 登录后跳转到首页
+              ) : (
+                <Auth onLogin={handleLogin} />
+              )
+            }
+          />
           <Route
             path="/profile"
-            element={isAuthenticated ? <Profile /> : <Navigate to="/" />}
+            element={isAuthenticated ? <Profile /> : <Navigate to="/auth" />}
           />
           <Route
             path="/create-assignment"
             element={
-              isAuthenticated ? <CreateAssignment /> : <Navigate to="/" />
+              isAuthenticated ? <CreateAssignment /> : <Navigate to="/auth" />
             }
           />
         </Routes>

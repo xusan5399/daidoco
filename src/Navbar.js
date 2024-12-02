@@ -101,7 +101,7 @@ export default function Navbar() {
           </Menu>
         </div>
       ) : (
-        <Button onClick={handleLogin}>Googleでログイン</Button>
+        <Button onClick={handleLogin}>ログイン</Button>
       )}
     </div>
   );

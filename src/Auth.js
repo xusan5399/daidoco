@@ -1,62 +1,47 @@
-import React, { useState } from "react";
-import { signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-import { Box, Button, Typography, Paper, Container } from "@mui/material";
 
 export default function Auth() {
   const [user, setUser] = useState(null);
 
+  // 监听用户登录状态
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser); // 更新用户状态
+    });
+    return () => unsubscribe(); // 清理监听器
+  }, []);
+
   const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
     try {
-      const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      setUser(result.user);
+      console.log("登录成功: ", result.user);
     } catch (error) {
-      alert(error.message);
+      console.error("登录失败: ", error);
     }
   };
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);
+      console.log("登出成功");
     } catch (error) {
-      alert(error.message);
+      console.error("登出失败: ", error);
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} style={{ padding: "2rem", marginTop: "2rem" }}>
-        {user ? (
-          <Box>
-            <Typography variant="h5" gutterBottom>
-              Welcome, {user.displayName || user.email}
-            </Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleLogout}
-              style={{ marginTop: "1rem" }}
-            >
-              Logout
-            </Button>
-          </Box>
-        ) : (
-          <Box textAlign="center">
-            <Typography variant="h6" gutterBottom>
-              Please log in with Google
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleGoogleLogin}
-            >
-              Login with Google
-            </Button>
-          </Box>
-        )}
-      </Paper>
-    </Container>
+    <div className="auth">
+      {user ? (
+        <div>
+          <p>欢迎, {user.displayName}</p>
+          <button onClick={handleLogout}>登出</button>
+        </div>
+      ) : (
+        <button onClick={handleGoogleLogin}>使用 Google 登录</button>
+      )}
+    </div>
   );
 }

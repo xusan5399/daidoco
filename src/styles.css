@@ -2,3 +2,46 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+.navbar {
+  background-color: #007bff;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.auth {
+  margin: 2rem 0;
+}
+
+.auth button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.home ul {
+  list-style: none;
+  padding: 0;
+}
+
+.home li {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  color: #333;
+}

@@ -42,7 +42,9 @@ export default function App() {
 
   return (
     <Router>
+      {/* 顶部导航栏 */}
       <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+
       <div className="container">
         {/* 左侧抽屉 */}
         <LeftDrawer
@@ -52,8 +54,10 @@ export default function App() {
         />
 
         <div className="content">
+          {/* 路由配置 */}
           <Routes>
             <Route path="/" element={<Home />} />
+
             <Route
               path="/auth"
               element={
@@ -64,16 +68,21 @@ export default function App() {
                 )
               }
             />
+
             <Route
               path="/profile"
               element={isAuthenticated ? <Profile /> : <Navigate to="/auth" />}
             />
+
             <Route
               path="/create-assignment"
               element={
                 isAuthenticated ? <CreateAssignment /> : <Navigate to="/auth" />
               }
             />
+
+            {/* 如果没有匹配的路由，重定向到首页 */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </div>

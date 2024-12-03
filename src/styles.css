@@ -371,19 +371,3 @@ a:hover {
   font-size: 12px;
   color: #888;
 }
-
-/* Floating Action Button 样式 */
-.fab-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影 */
-}
-
-/* 按钮内图标的颜色和大小 */
-.fab-button .MuiIcon-root {
-  color: white; /* 图标颜色 */
-  font-size: 30px; /* 图标大小 */
-}

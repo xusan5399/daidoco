@@ -6,9 +6,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import Auth from "./Auth";
-import Home from "./Home";
+import Home from "./Home"; // 引入主页
 import PostDetail from "./PostDetail"; // 引入帖子详情页组件
-import CreatePost from "./CreatePost";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
 import CreateAssignment from "./CreateAssignment";
@@ -83,8 +82,7 @@ export default function App() {
               }
             />
             {/* 帖子详情页面 */}
-            <Route path="/post/:postId" element={<PostDetail />} />{" "}
-            {/* 确保这个路由存在 */}
+            <Route path="/post/:postId" element={<PostDetail />} />
             {/* 如果没有匹配的路由，重定向到首页 */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

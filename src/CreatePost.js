@@ -1,50 +1,90 @@
 import React, { useState } from "react";
-import { TextField, Button, Box } from "@mui/material";
+import {
+  Fab,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit"; // 画笔图标
+import { useNavigate } from "react-router-dom";
 
-export default function CreatePost() {
+export default function Home() {
+  const [open, setOpen] = useState(false);
   const [postContent, setPostContent] = useState("");
+  const navigate = useNavigate(); // 用于页面跳转
 
+  // 打开弹窗
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  // 关闭弹窗
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // 处理输入框内容
   const handlePostChange = (e) => {
     setPostContent(e.target.value);
   };
 
+  // 发布内容
   const handlePostSubmit = () => {
-    // 处理发布逻辑（例如保存到服务器或本地存储）
     console.log("发布的内容:", postContent);
-
-    // 重置内容并跳转到首页
-    setPostContent("");
-    // 可以在这里添加跳转到首页的逻辑
-    // window.location.href = "/";
+    setPostContent(""); // 清空输入框内容
+    setOpen(false); // 关闭弹窗
+    navigate("/"); // 如果你希望跳转到主页（如果有需要）
   };
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 600, margin: "0 auto", padding: 2 }}>
-      <h2>发布新帖子</h2>
-      <TextField
-        label="请输入帖子内容"
-        multiline
-        rows={4}
-        fullWidth
-        value={postContent}
-        onChange={handlePostChange}
-        sx={{ marginBottom: 2 }}
-      />
-      <Button
-        variant="contained"
+    <div>
+      {/* 主页内容 */}
+      <h1>欢迎来到首页</h1>
+
+      {/* 画笔按钮，点击弹出发布对话框 */}
+      <Fab
         color="primary"
-        onClick={handlePostSubmit}
-        sx={{ marginRight: 2 }}
+        aria-label="add"
+        sx={{
+          position: "fixed",
+          bottom: 20, // 右下角位置
+          right: 20, // 右下角位置
+          zIndex: 1000, // 确保按钮在其他元素之上
+        }}
+        onClick={handleClickOpen} // 点击弹出对话框
       >
-        发布
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={() => window.history.back()}
-      >
-        取消
-      </Button>
-    </Box>
+        <EditIcon />
+      </Fab>
+
+      {/* 发布新帖子对话框 */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>发布新帖子</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="请输入帖子内容"
+            type="text"
+            fullWidth
+            multiline
+            rows={4}
+            value={postContent}
+            onChange={handlePostChange}
+            variant="outlined"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            取消
+          </Button>
+          <Button onClick={handlePostSubmit} color="primary">
+            发布
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }

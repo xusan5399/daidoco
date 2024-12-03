@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FaHome,
@@ -20,6 +20,17 @@ import {
 } from "react-icons/fa";
 
 const LeftDrawer = ({ isOpen, openDrawer, closeDrawer }) => {
+  useEffect(() => {
+    // 获取导航栏的高度
+    const navbarHeight = document.querySelector(".navbar").offsetHeight;
+
+    // 获取抽屉元素并设置其位置
+    const drawer = document.querySelector(".drawer");
+    if (drawer) {
+      drawer.style.top = `${navbarHeight}px`; // 将抽屉的 top 设置为导航栏的高度
+    }
+  }, []);
+
   return (
     <div
       className={`drawer ${isOpen ? "open" : ""}`}

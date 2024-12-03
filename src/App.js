@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import Auth from "./Auth";
 import Home from "./Home";
+import PostDetail from "./PostDetail"; // 引入帖子详情页组件
+import CreatePost from "./CreatePost";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
 import CreateAssignment from "./CreateAssignment";
@@ -57,7 +59,7 @@ export default function App() {
           {/* 路由配置 */}
           <Routes>
             <Route path="/" element={<Home />} />
-
+            {/* 登录路由 */}
             <Route
               path="/auth"
               element={
@@ -68,19 +70,21 @@ export default function App() {
                 )
               }
             />
-
+            {/* 个人资料 */}
             <Route
               path="/profile"
               element={isAuthenticated ? <Profile /> : <Navigate to="/auth" />}
             />
-
+            {/* 创建作业 */}
             <Route
               path="/create-assignment"
               element={
                 isAuthenticated ? <CreateAssignment /> : <Navigate to="/auth" />
               }
             />
-
+            {/* 帖子详情页面 */}
+            <Route path="/post/:postId" element={<PostDetail />} />{" "}
+            {/* 确保这个路由存在 */}
             {/* 如果没有匹配的路由，重定向到首页 */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

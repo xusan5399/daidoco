@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  FaUser,
   FaComment,
   FaLightbulb,
   FaTasks,
-  FaUser,
   FaRegFileAlt,
   FaUsers,
 } from "react-icons/fa";
@@ -20,11 +20,8 @@ const SidebarItem = ({ to, icon: Icon, label }) => (
   </div>
 );
 
-export default function Home({ onLogin }) {
+export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // 控制菜单栏的展开/收缩
-
-  // 切换菜单栏显示/隐藏
-  const toggleSidebar = () => setIsSidebarOpen((prevState) => !prevState);
 
   // 假设帖子数据
   const posts = [
@@ -33,14 +30,31 @@ export default function Home({ onLogin }) {
       title: "大家有遇到相同的编程问题吗？",
       author: "学生A",
       timeAgo: "1小时前",
-      avatarUrl: "path/to/avatar1.jpg",
+    },
+
+    {
+      id: 2,
+      title: "如何高效学习 React？",
+      author: "学生B",
+      timeAgo: "2小时前",
     },
     {
       id: 2,
       title: "如何高效学习 React？",
       author: "学生B",
       timeAgo: "2小时前",
-      avatarUrl: "path/to/avatar2.jpg",
+    },
+    {
+      id: 2,
+      title: "如何高效学习 React？",
+      author: "学生B",
+      timeAgo: "2小时前",
+    },
+    {
+      id: 2,
+      title: "如何高效学习 React？",
+      author: "学生B",
+      timeAgo: "2小时前",
     },
     // 更多帖子
   ];
@@ -59,7 +73,7 @@ export default function Home({ onLogin }) {
           <SidebarItem to="/users" icon={FaUsers} label="用户管理" />
         </div>
 
-        {/* 第三个左侧小板块（通知、消息、日历） */}
+        {/* 第二个左侧小板块（通知、消息、日历） */}
         <div className="sidebar-small">
           <SidebarItem to="/notifications" icon={FaComment} label="通知" />
           <SidebarItem to="/messages" icon={FaLightbulb} label="消息" />

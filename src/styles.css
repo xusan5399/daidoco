@@ -43,23 +43,14 @@ h3 {
   text-decoration: none;
 }
 
-/* 左侧菜单栏 */
-.sidebar {
-  width: 250px;
-  background-color: #333;
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
+/* 侧边栏项目样式 */
 .sidebar-item {
-  padding: 10px;
+  padding: 8px 12px; /* 增加 padding 让内容显得更舒适 */
   background-color: #444;
   border-radius: 5px;
 }
 
+/* 链接样式 */
 .sidebar-item a {
   color: white;
   text-decoration: none;
@@ -72,7 +63,7 @@ h3 {
 
 /* 小板块样式：在主内容区左侧增加两个小板块 */
 .sidebar-small {
-  width: 200px;
+  width: 180px; /* 调整宽度，使其稍微增大 */
   background-color: #f8f9fa;
   margin-right: 20px;
   padding: 20px;
@@ -80,17 +71,12 @@ h3 {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.sidebar-small .sidebar-item {
-  background-color: #007bff;
-  color: white;
-  font-weight: normal;
-}
-
-.sidebar-small .sidebar-item:hover {
-  background-color: #0056b3;
+  gap: 15px;
+  height: auto; /* 让高度自适应内容 */
+  max-height: 80vh; /* 保持最大高度限制 */
+  overflow-y: auto; /* 如果内容超过最大高度，显示滚动条 */
+  position: relative; /* 确保容器相对于其父容器定位 */
+  margin-bottom: 50px; /* 两个板块的间距调整 */
 }
 
 /* 主内容区 */
@@ -100,8 +86,8 @@ h3 {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 70%; /* 缩小内容区宽度 */
-  margin-left: 150px; /* 调整偏右的程度 */
+  width: 70%; /* 保持原来宽度 */
+  margin-left: 100px; /* 调整左边距，整体向右偏移 */
 }
 
 /* 主容器设置：左右布局 */
@@ -110,24 +96,12 @@ h3 {
   justify-content: flex-start; /* 保证容器的左对齐 */
   min-height: 100vh;
   padding: 20px;
+  margin-left: 50px; /* 增加左边距来让容器偏右 */
 }
 
 /* 内容板块样式 */
 .section {
   margin-bottom: 20px;
-}
-
-.section-item {
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.section-item p {
-  margin: 0;
-  color: gray;
 }
 
 /* 链接样式 */
@@ -159,11 +133,6 @@ a:hover {
     flex-direction: column;
   }
 
-  .sidebar {
-    width: 100%;
-    padding: 10px;
-  }
-
   .content {
     padding: 10px;
     width: 100%; /* 让内容区宽度占满 */
@@ -177,15 +146,15 @@ a:hover {
 }
 
 /* 版块标题样式 */
-.section-item h3 {
-  margin-left: 10px;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-.section-item p {
-  margin-left: 10px;
-  color: gray;
+.section-item {
+  background-color: transparent; /* 移除底部的背景色 */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* 增加底部间距 */
+  margin-top: 20px; /* 增加顶部间距 */
+  max-height: 150px; /* 设置最大高度为150px，避免过高 */
+  overflow: hidden; /* 超出部分隐藏 */
 }
 
 /* 侧边栏菜单展开样式 */

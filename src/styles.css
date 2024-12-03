@@ -21,8 +21,15 @@ h3 {
   background-color: #333;
   padding: 10px 20px;
   color: white;
+  position: fixed; /* 固定导航栏 */
+  top: 0; /* 顶部对齐 */
+  left: 0; /* 左侧对齐 */
+  right: 0; /* 右侧对齐 */
+  z-index: 1000; /* 确保导航栏位于其他内容之上 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 为导航栏添加阴影 */
 }
 
+/* Logo */
 .navbar .logo {
   display: flex;
   align-items: center;
@@ -33,6 +40,7 @@ h3 {
   margin-right: 10px;
 }
 
+/* 右侧链接 */
 .navbar .links {
   display: flex;
   gap: 20px;
@@ -41,6 +49,11 @@ h3 {
 .navbar .links a {
   color: white;
   text-decoration: none;
+}
+
+/* 解决导航栏固定后，页面内容被遮挡的问题 */
+body {
+  padding-top: 60px; /* 根据导航栏的高度调整页面顶部的内边距 */
 }
 
 /* 侧边栏项目样式 */

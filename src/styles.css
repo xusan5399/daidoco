@@ -167,6 +167,7 @@ a:hover {
   background-color: #333;
   transition: width 0.3s ease;
   z-index: 1000;
+  padding-left: 20px; /* 为了让图标不太靠近边缘 */
 }
 
 .drawer.open {
@@ -185,6 +186,8 @@ a:hover {
 
 .drawer-items li {
   margin: 15px 0;
+  display: flex;
+  align-items: center; /* 确保图标和文字垂直居中 */
 }
 
 .drawer-items li a {
@@ -193,6 +196,7 @@ a:hover {
   text-decoration: none;
   color: #fff;
   transition: color 0.3s;
+  width: 100%; /* 让链接占满父元素 */
 }
 
 .drawer-items li a:hover {
@@ -201,19 +205,25 @@ a:hover {
 
 .drawer-items li svg {
   font-size: 24px;
-  margin-right: 10px;
+  margin-right: 15px; /* 给图标和标题之间增加一些空间 */
+  margin-left: 10px; /* 使图标距离左侧边缘更远 */
 }
 
-/* 默认隐藏文本 */
-.drawer-text {
+.drawer-items li .drawer-text {
   display: none;
   font-size: 16px;
   color: #fff;
+  flex-grow: 1; /* 保证标题占据剩余空间 */
 }
 
 /* 鼠标悬停时显示文本 */
 .drawer.open .drawer-text {
   display: inline-block;
+}
+
+/* 当鼠标悬停时，图标和文字都会同时显示 */
+.drawer.open .drawer-items li a:hover {
+  color: #f39c12;
 }
 
 /* 统一图标样式 */

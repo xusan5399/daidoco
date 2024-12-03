@@ -157,27 +157,63 @@ a:hover {
   overflow: hidden; /* 超出部分隐藏 */
 }
 
-/* 侧边栏菜单展开样式 */
-.sidebar-item.active {
-  background-color: #007bff;
+/* Left Drawer 样式 */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 60px; /* 初始宽度仅显示图标 */
+  height: 100%;
+  background-color: #333;
+  transition: width 0.3s ease;
+  z-index: 1000;
 }
 
-.sidebar-item.active a {
-  color: white;
+.drawer.open {
+  width: 200px; /* 鼠标悬停或打开时，宽度增加，显示标题 */
 }
 
-/* 按钮样式 */
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+.drawer-content {
+  padding-top: 20px; /* 添加一些顶部空间 */
 }
 
-button:hover {
-  background-color: #0056b3;
+.drawer-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.drawer-items li {
+  margin: 15px 0;
+}
+
+.drawer-items li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+.drawer-items li a:hover {
+  color: #f39c12;
+}
+
+.drawer-items li svg {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+/* 默认隐藏文本 */
+.drawer-text {
+  display: none;
+  font-size: 16px;
+  color: #fff;
+}
+
+/* 鼠标悬停时显示文本 */
+.drawer.open .drawer-text {
+  display: inline-block;
 }
 
 /* 统一图标样式 */

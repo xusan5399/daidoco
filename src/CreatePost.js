@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Fab,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,19 +8,19 @@ import {
   Button,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit"; // 画笔图标
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // 用于页面跳转
 
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [postContent, setPostContent] = useState("");
   const navigate = useNavigate(); // 用于页面跳转
 
-  // 打开弹窗
+  // 打开发布对话框
   const handleClickOpen = () => {
-    setOpen(true);
+    navigate("/create-post"); // 跳转到发帖页面
   };
 
-  // 关闭弹窗
+  // 关闭发布对话框
   const handleClose = () => {
     setOpen(false);
   };
@@ -31,7 +30,7 @@ export default function Home() {
     setPostContent(e.target.value);
   };
 
-  // 发布内容
+  // 提交发布内容
   const handlePostSubmit = () => {
     console.log("发布的内容:", postContent);
     setPostContent(""); // 清空输入框内容
@@ -43,21 +42,6 @@ export default function Home() {
     <div>
       {/* 主页内容 */}
       <h1>欢迎来到首页</h1>
-
-      {/* 画笔按钮，点击弹出发布对话框 */}
-      <Fab
-        color="primary"
-        aria-label="add"
-        sx={{
-          position: "fixed",
-          bottom: 20, // 右下角位置
-          right: 20, // 右下角位置
-          zIndex: 1000, // 确保按钮在其他元素之上
-        }}
-        onClick={handleClickOpen} // 点击弹出对话框
-      >
-        <EditIcon />
-      </Fab>
 
       {/* 发布新帖子对话框 */}
       <Dialog open={open} onClose={handleClose}>

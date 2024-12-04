@@ -13,6 +13,7 @@ import Profile from "./Profile";
 import CreateAssignment from "./CreateAssignment";
 import LeftDrawer from "./LeftDrawer"; // 引入左侧抽屉组件
 import BasicFAB from "./BasicFAB"; // pen
+import CreatePost from "./CreatePost"; // 引入发帖页面组件
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -82,11 +83,20 @@ export default function App() {
                 isAuthenticated ? <CreateAssignment /> : <Navigate to="/auth" />
               }
             />
+            {/* 发帖页面 */}
+            <Route
+              path="/create-post"
+              element={
+                isAuthenticated ? <CreatePost /> : <Navigate to="/auth" />
+              }
+            />
             {/* 帖子详情页面 */}
             <Route path="/post/:postId" element={<PostDetail />} />
             {/* 如果没有匹配的路由，重定向到首页 */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
+
+          {/* 浮动按钮 */}
           <BasicFAB />
         </div>
       </div>

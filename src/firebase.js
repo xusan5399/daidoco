@@ -1,6 +1,7 @@
-// firebase.js
+// src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore"; // 导入 Firestore
 
 // Firebase 配置对象
 const firebaseConfig = {
@@ -16,5 +17,8 @@ const firebaseConfig = {
 // 初始化 Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app); // 初始化 Firestore
 
-export { auth };
+// 导出所需的 Firebase 服务
+export { auth, db };
+

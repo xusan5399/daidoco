@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FaUser,
   FaComment,
-  FaLightbulb,
   FaTasks,
   FaRegFileAlt,
   FaUsers,
+  FaLightbulb,
 } from "react-icons/fa";
+import { db } from "./firebase"; // 导入 Firebase 配置
+import { collection, getDocs, doc, getDoc } from "firebase/firestore"; // Firebase Firestore 相关函数
 import "./styles.css";
 
 // 左侧菜单项组件
@@ -21,50 +23,56 @@ const SidebarItem = ({ to, icon: Icon, label }) => (
 );
 
 export default function Home() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // 控制菜单栏的展开/收缩
+  const [posts, setPosts] = useState([]); // 存储帖子数据
+  const [avatars, setAvatars] = useState({}); // 存储用户头像数据
 
-  // 假设帖子数据
-  const posts = [
-    {
-      id: 1,
-      title: "大家有遇到相同的编程问题吗？",
-      author: "学生A",
-      timeAgo: "1小时前",
-    },
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "posts"));
+        const postsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-    {
-      id: 2,
-      title: "如何高效学习 React？",
-      author: "学生B",
-      timeAgo: "2小时前",
-    },
-    {
-      id: 2,
-      title: "如何高效学习 React？",
-      author: "学生B",
-      timeAgo: "2小时前",
-    },
-    {
-      id: 2,
-      title: "如何高效学习 React？",
-      author: "学生B",
-      timeAgo: "2小时前",
-    },
-    {
-      id: 2,
-      title: "如何高效学习 React？",
-      author: "学生B",
-      timeAgo: "2小时前",
-    },
-    // 更多帖子
-  ];
+        // 将帖子按时间逆序排列，最新的帖子显示在最上面
+        postsData.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
+
+        setPosts(postsData);
+
+        // 获取用户头像
+        const avatarPromises = postsData.map(async (post) => {
+          const userRef = doc(db, "users", post.authorId); // 获取用户的 doc 引用
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
+            return { [post.authorId]: userDoc.data().avatarUrl }; // 获取头像 URL
+          }
+          return null;
+        });
+
+        // 批量获取所有用户头像
+        const avatarsData = await Promise.all(avatarPromises);
+        const avatarMap = avatarsData.reduce((acc, avatar) => {
+          if (avatar) {
+            acc = { ...acc, ...avatar };
+          }
+          return acc;
+        }, {});
+        setAvatars(avatarMap);
+      } catch (error) {
+        console.error("获取帖子数据失败:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []); // 组件加载时调用
 
   return (
     <div className="container">
       {/* 左侧菜单栏 */}
       <div className="sidebar">
-        {/* 第一个左侧小板块 */}
-        <div className="sidebar-small">
+        {/* 主要功能菜单 */}
+        <div className="sidebar-section">
           <SidebarItem to="/home" icon={FaComment} label="讨论区" />
           <SidebarItem to="/topics" icon={FaLightbulb} label="最新话题" />
           <SidebarItem to="/tasks" icon={FaTasks} label="任务管理" />
@@ -73,8 +81,8 @@ export default function Home() {
           <SidebarItem to="/users" icon={FaUsers} label="用户管理" />
         </div>
 
-        {/* 第二个左侧小板块（通知、消息、日历） */}
-        <div className="sidebar-small">
+        {/* 次要功能菜单（通知、消息、日历等） */}
+        <div className="sidebar-section">
           <SidebarItem to="/notifications" icon={FaComment} label="通知" />
           <SidebarItem to="/messages" icon={FaLightbulb} label="消息" />
           <SidebarItem to="/calendar" icon={FaTasks} label="日历" />
@@ -85,31 +93,46 @@ export default function Home() {
       <div className="content">
         {/* 右侧帖子展示区 */}
         <div className="section">
-          {posts.map((post) => (
-            <div key={post.id} className="section-item">
-              <div className="post-header">
-                {/* 用户头像 */}
-                <div className="avatar">
-                  <FaUser />
+          {posts.length === 0 ? (
+            <p>暂时没有帖子，稍后再试。</p>
+          ) : (
+            posts.map((post) => (
+              <div key={post.id} className="section-item">
+                <div className="post-header">
+                  {/* 用户头像 */}
+                  <div className="avatar">
+                    {avatars[post.authorId] ? (
+                      <img
+                        src={avatars[post.authorId]}
+                        alt={post.authorId}
+                        className="avatar-image"
+                      />
+                    ) : (
+                      <FaUser /> // 如果没有头像，则显示默认的用户图标
+                    )}
+                  </div>
+                  {/* 帖子标题和用户信息 */}
+                  <div className="post-info">
+                    <h3>
+                      <Link to={`/post/${post.id}`}>{post.title}</Link>
+                    </h3>
+                    <p>
+                      发布者:{" "}
+                      <Link to={`/profile/${post.authorId}`}>
+                        {post.author}
+                      </Link>{" "}
+                      ·{" "}
+                      {new Date(post.timestamp.seconds * 1000).toLocaleString()}
+                    </p>
+                  </div>
+                  {/* 置顶按钮（如果需要的话） */}
+                  <button className="stick-button">
+                    <FaComment />
+                  </button>
                 </div>
-                {/* 帖子标题和用户信息 */}
-                <div className="post-info">
-                  <h3>
-                    <Link to={`/post/${post.id}`}>{post.title}</Link>
-                  </h3>
-                  <p>
-                    发布者:{" "}
-                    <Link to={`/profile/${post.author}`}>{post.author}</Link> ·{" "}
-                    {post.timeAgo}
-                  </p>
-                </div>
-                {/* 置顶按钮 */}
-                <button className="stick-button">
-                  <FaComment />
-                </button>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

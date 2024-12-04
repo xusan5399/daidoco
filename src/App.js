@@ -12,6 +12,7 @@ import Navbar from "./Navbar";
 import Profile from "./Profile";
 import CreateAssignment from "./CreateAssignment";
 import LeftDrawer from "./LeftDrawer"; // 引入左侧抽屉组件
+import BasicFAB from "./BasicFAB"; // pen
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -86,6 +87,7 @@ export default function App() {
             {/* 如果没有匹配的路由，重定向到首页 */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
+          <BasicFAB />
         </div>
       </div>
     </Router>

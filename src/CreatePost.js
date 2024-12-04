@@ -83,6 +83,7 @@ export default function CreatePost() {
           onChange={handleContentChange}
           sx={{ marginBottom: 2 }}
         />
+        
 
         {/* 提交按钮 */}
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>

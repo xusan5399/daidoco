@@ -25,6 +25,8 @@ const SidebarItem = ({ to, icon: Icon, label }) => (
 export default function Home() {
   const [posts, setPosts] = useState([]); // 存储帖子数据
   const [avatars, setAvatars] = useState({}); // 存储用户头像数据
+  const [error, setError] = useState(null); // 存储错误信息
+  const [loading, setLoading] = useState(true); // 加载状态
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -60,7 +62,10 @@ export default function Home() {
         }, {});
         setAvatars(avatarMap);
       } catch (error) {
+        setError("获取帖子数据失败");
         console.error("获取帖子数据失败:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -91,7 +96,13 @@ export default function Home() {
 
       {/* 右侧内容区域 */}
       <div className="content">
-        {/* 右侧帖子展示区 */}
+        {/* 加载中 */}
+        {loading && <p>加载中...</p>}
+
+        {/* 显示错误信息 */}
+        {error && <p>{error}</p>}
+
+        {/* 显示帖子 */}
         <div className="section">
           {posts.length === 0 ? (
             <p>暂时没有帖子，稍后再试。</p>
@@ -125,14 +136,37 @@ export default function Home() {
                       {new Date(post.timestamp.seconds * 1000).toLocaleString()}
                     </p>
                   </div>
-                  {/* 置顶按钮（如果需要的话） */}
-                  <button className="stick-button">
-                    <FaComment />
-                  </button>
                 </div>
               </div>
             ))
           )}
+        </div>
+
+        {/* 新增板块：最新话题 */}
+        <div className="section">
+          <h2>最新话题</h2>
+          {/* 可在这里添加展示最新话题的组件或数据 */}
+          <div className="section-item">
+            <p>这里展示最新的话题内容...</p>
+          </div>
+        </div>
+
+        {/* 新增板块：热门话题 */}
+        <div className="section">
+          <h2>热门话题</h2>
+          {/* 可在这里添加展示热门话题的组件或数据 */}
+          <div className="section-item">
+            <p>这里展示最受欢迎的话题内容...</p>
+          </div>
+        </div>
+
+        {/* 新增板块：任务管理 */}
+        <div className="section">
+          <h2>任务管理</h2>
+          {/* 可在这里添加展示任务管理的组件或数据 */}
+          <div className="section-item">
+            <p>这里展示任务管理内容...</p>
+          </div>
         </div>
       </div>
     </div>

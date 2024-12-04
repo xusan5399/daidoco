@@ -21,4 +21,3 @@ const db = getFirestore(app); // 初始化 Firestore
 
 // 导出所需的 Firebase 服务
 export { auth, db };
-

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import { FaUser } from "react-icons/fa";
-import { auth, db } from "./firebase"; // 导入 Firebase 服务
+import { auth, db } from "./firebase"; // 正确导入 Firebase 服务
 import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, addDoc } from "firebase/firestore"; // Firestore 方法
 
 const PostDetail = () => {
   const { postId } = useParams(); // 获取 URL 中的帖子 ID
